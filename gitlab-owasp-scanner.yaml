@@ -1,0 +1,12 @@
+owasp-job:
+  image: harbor.xxxxxxxxx.xxx/xxxx/owaspcustom@sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  stage: scans
+  allow_failure: true
+  script:
+    - /opt/dependency_checker/bin/dependency-check.sh --scan $(find -name package.json) --project "cerebro" --format HTML --out ./report/ --noupdate | true
+  artifacts:
+    when: always
+    paths:
+      - ./report/dependency-check-report.html
+    expire_in: 1 week
+
