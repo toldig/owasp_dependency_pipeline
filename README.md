@@ -12,9 +12,11 @@ Run alpine image and map the **app** directory within the container to /app
 docker run --privileged -it --rm -v "$(pwd):/app" alpine:latest
 ```
 
-Install JAVA  
+Install JAVA and npm  
 ```
 apk add openjdk11
+apk add npm
+npm i -g npm-audit-html@beta
 ```
 
 Move dependency checker into /opt  
