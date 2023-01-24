@@ -3,10 +3,15 @@ owasp-job:
   stage: scans
   allow_failure: true
   script:
-    - /opt/dependency_checker/bin/dependency-check.sh --scan $(find -name package.json) --project "project_name" --format HTML --out ./report/ --noupdate | true
+    - cd frontend
+    - npm install
+    - /opt/dependency_checker/bin/dependency-check.sh --scan package-lock.json --project "cerebro" --format HTML --out .. --noupdate --log ../odc.log || true
+    - npm audit --json --audit-level=info | npm-audit-html --output ../npm-audit.html || true
   artifacts:
     when: always
     paths:
-      - ./report/dependency-check-report.html
+      - dependency-check-report.html
+      - odc.log
+      - npm-audit.html
     expire_in: 1 week
 
