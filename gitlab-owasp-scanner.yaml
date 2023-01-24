@@ -3,7 +3,7 @@ owasp-job:
   stage: scans
   allow_failure: true
   script:
-    - /opt/dependency_checker/bin/dependency-check.sh --scan $(find -name package.json) --project "cerebro" --format HTML --out ./report/ --noupdate | true
+    - /opt/dependency_checker/bin/dependency-check.sh --scan $(find -name package.json) --project "project_name" --format HTML --out ./report/ --noupdate | true
   artifacts:
     when: always
     paths:
