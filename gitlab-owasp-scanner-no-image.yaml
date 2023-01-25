@@ -1,0 +1,22 @@
+owasp-job:
+  image: alpine:latest
+  stage: scans
+  allow_failure: true
+  script:
+    - apk add openjdk11
+    - apk add npm
+    - npm i -g npm-audit-html@beta
+    - cd frontend
+    - wget https://github.com/jeremylong/DependencyCheck/releases/download/v8.0.1/dependency-check-8.0.1-release.zip
+    - unzip dependency-check-8.0.1-release.zip
+    - npm install
+    - npm audit --json --audit-level=info | npm-audit-html --output ../npm-audit.html || true
+    - ./dependency-check/bin/dependency-check.sh --scan package-lock.json --project "cerebro" --format HTML --out .. --log ../odc.log || true
+  artifacts:
+    when: always
+    paths:
+      - dependency-check-report.html
+      - odc.log
+      - npm-audit.html
+    expire_in: 1 week
+
